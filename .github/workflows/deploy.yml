@@ -1,0 +1,36 @@
+name: Deploy to VPS
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            - name: Deploy to VPS via SSH
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.VPS_HOST }}
+                  username: ${{ secrets.VPS_USERNAME }}
+                  port: ${{ secrets.VPS_PORT || 22 }}
+                  script: |
+
+                      cd /home/${{ secrets.VPS_USERNAME }}/bnsp || exit 1
+
+                      git pull origin main
+
+                      docker compose down
+                      docker system prune -f
+
+                      docker build -t system-integrator-app:latest --no-cache
+
+                      docker compose up -d
+
+                      echo "Deployment completed successfully!"
+                      docker compose ps
