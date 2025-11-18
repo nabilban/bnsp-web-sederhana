@@ -18,7 +18,7 @@ jobs:
               with:
                   host: ${{ secrets.VPS_HOST }}
                   username: ${{ secrets.VPS_USERNAME }}
-                  port: ${{ secrets.VPS_PORT || 22 }}
+                  password: ${{ secrets.VPS_PASSWORD }}
                   script: |
 
                       cd /home/${{ secrets.VPS_USERNAME }}/bnsp || exit 1

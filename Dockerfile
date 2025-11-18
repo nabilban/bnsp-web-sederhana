@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expose port yang digunakan oleh aplikasi
-EXPOSE 8080
+EXPOSE 80
 
 # Perintah untuk menjalankan aplikasi
 CMD ["node", "app.js"]
