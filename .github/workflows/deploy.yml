@@ -1,17 +1,12 @@
 name: Deploy to VPS
-
 on:
     push:
         branches:
             - main
-
 jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
-
             - name: Deploy to VPS via SSH
               uses: appleboy/ssh-action@master
               with:
@@ -19,17 +14,15 @@ jobs:
                   username: ${{ secrets.VPS_USERNAME }}
                   password: ${{ secrets.VPS_PASSWORD }}
                   script: |
-
                       cd /home/${{ secrets.VPS_USERNAME }}/bnsp/bnsp-web-sederhana || exit 1
 
                       git pull origin main
 
-                      docker compose down
-                      docker system prune -f
-
                       docker build -t system-integrator-app:latest --no-cache .
 
-                      docker compose up -d
+                      docker-compose up -d
+
+                      docker system prune -f
 
                       echo "Deployment completed successfully!"
-                      docker compose ps
+                      docker ps
