@@ -1,6 +1,5 @@
 services:
   app:
-    # build: .  # Uncomment for local development
     image: nabilban/system-integrator-app:latest
     container_name: system-integrator-app
     ports:
